@@ -2,6 +2,7 @@ package com.empresa.proyecto.designpatterns.iterator;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Predicate;
 
 public class StrategyPattern {
     public static void main(String[] args) {
@@ -14,25 +15,17 @@ public class StrategyPattern {
         stockList.add(new Stock("AAPL", 318.65, 8));
         stockList.add(new Stock("AMZ", 1866.74, 9));
 
-        StockFilters.bySymbol(stockList, "AMZ").forEach(System.out::println);
+        StockFilters
+                .filter(stockList, stock -> stock.getSymbol().equals("AMZ"))
+                .forEach(System.out::println);
     }
 }
 
 class StockFilters {
-    public static List<Stock> bySymbol(List<Stock> list, String symbol) {
+    public static List<Stock> filter(List<Stock> list, Predicate<Stock> p) {
         List<Stock> filteredData = new ArrayList<>();
         for (Stock stock : list) {
-            if (stock.getSymbol().equals(symbol)) {
-                filteredData.add(stock);
-            }
-        }
-        return filteredData;
-    }
-
-    public static List<Stock> byPriceAbove(List<Stock> list, double price) {
-        List<Stock> filteredData = new ArrayList<>();
-        for (Stock stock : list) {
-            if (stock.getPrice() > price) {
+            if (p.test(stock)) {
                 filteredData.add(stock);
             }
         }
