@@ -1,4 +1,4 @@
-package com.empresa.proyecto.designpatterns.iterator;
+package com.empresa.proyecto.designpatterns;
 
 public class CommandPattern {
     public static void main(String[] args) {

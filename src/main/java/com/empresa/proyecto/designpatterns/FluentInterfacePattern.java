@@ -1,4 +1,4 @@
-package com.empresa.proyecto.designpatterns.iterator;
+package com.empresa.proyecto.designpatterns;
 
 import java.util.ArrayList;
 import java.util.List;
