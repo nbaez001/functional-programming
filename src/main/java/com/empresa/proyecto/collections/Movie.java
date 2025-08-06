@@ -36,7 +36,6 @@ public class Movie {
         this.industry = industry;
     }
 
-
     @Override
     public String toString() {
         return "Movie [name=" + name + ", releaseYear=" + releaseYear + ", industry=" + industry + "]";
