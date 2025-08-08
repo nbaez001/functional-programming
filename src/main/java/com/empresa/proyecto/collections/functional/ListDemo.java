@@ -5,9 +5,7 @@ import java.util.List;
 import java.util.function.Consumer;
 
 public class ListDemo {
-
     public static void main(String[] args) {
-
         ListFun<Integer> list = ListFun.list(3, 6, 9);
         list.forEach(System.out::println);
 
@@ -81,7 +79,6 @@ abstract class ListFun<T> {
     }
 
     private static class Const<T> extends ListFun<T> {
-
         private final T head;
         private final ListFun<T> tail;
 
@@ -111,7 +108,6 @@ abstract class ListFun<T> {
     }
 
     public static <T> ListFun<T> list(T... t) {
-
         ListFun<T> temp = list();
 
         for (int i = t.length - 1; i >= 0; i--) {
@@ -136,7 +132,6 @@ abstract class ListFun<T> {
     }
 
     public void forEach(Consumer<? super T> action) {
-
         T current = this.head();
         ListFun<T> temp = this;
 
@@ -147,7 +142,6 @@ abstract class ListFun<T> {
         }
     }
 
-
     public ListFun<T> removeEle(T ele) {
         if (this.length() == 0)
             return this;
@@ -155,18 +149,20 @@ abstract class ListFun<T> {
             return tail();
         else {
             ListFun<T> newTail = tail().removeEle(ele);
+            if(newTail.equals(tail()))
+                return this;
             return new Const<T>(head(), newTail);
         }
     }
 
     //to remove from specific position
-    public ListFun<T> removeEle(int pos) {
+    /*public ListFun<T> removeEle(int pos) {
         if (pos < 0 || pos > length())
             throw new IndexOutOfBoundsException();
         if (pos == 0)
             return tail();
         return new Const<T>(head(), tail().removeEle(pos - 1));
-    }
+    }*/
 
     public ListFun<T> reverseList() {
         ListFun<T> list = list();
@@ -198,5 +194,4 @@ abstract class ListFun<T> {
     public ListFun<T> clear() {
         return list();
     }
-
 }
