@@ -23,7 +23,6 @@ public class InvoiceService {
 
     public InvoiceResponse createInvoice(InvoiceRequest req) {
         Invoice invoice = Invoice.builder()
-                .id(req.id())
                 .customerName(req.customerName())
                 .date(req.date())
                 .build();
@@ -51,16 +50,16 @@ public class InvoiceService {
             existing.setCustomerName(req.customerName());
             existing.setDate(req.date());
             if (req.lines() != null) {
-                List<InvoiceLine> lines = req.lines().stream()
-                        .map(l -> InvoiceLine
-                                .builder()
+                existing.getLines().clear();
+
+                req.lines().forEach(l -> existing.getLines().add(
+                        InvoiceLine.builder()
                                 .product(l.product())
                                 .quantity(l.quantity())
                                 .unitPrice(l.unitPrice())
                                 .invoice(existing)
-                                .build())
-                        .toList();
-                existing.setLines(lines);
+                                .build()
+                ));
             }
             return mapToResponse(repo.save(existing));
         });

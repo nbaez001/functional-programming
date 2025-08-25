@@ -2,7 +2,7 @@ DROP TABLE IF EXISTS invoice_lines;
 DROP TABLE IF EXISTS invoices;
 
 CREATE TABLE invoices (
-    id BIGINT PRIMARY KEY,
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
     customer_name VARCHAR(255),
     date DATE
 );
