@@ -73,7 +73,7 @@ public class InvoiceService {
         return repo.findAll().stream()
                 .filter(inv -> inv.getLines() != null && !inv.getLines().isEmpty())
                 .map(this::mapToResponse)
-                .sorted(Comparator.comparing(InvoiceResponse::grandTotal).reversed())
+                .sorted(Comparator.comparing(InvoiceResponse::total).reversed())
                 .toList();
     }
 
@@ -81,8 +81,6 @@ public class InvoiceService {
         List<InvoiceLine> validLines = Optional.ofNullable(inv.getLines())
                 .stream()
                 .flatMap(List::stream)
-                .filter(l -> Optional.ofNullable(l.getQuantity()).orElse(0) > 0 &&
-                        Optional.ofNullable(l.getUnitPrice()).orElse(0.0) > 0.0)
                 .toList();
 
         double total = validLines.stream()
@@ -99,16 +97,6 @@ public class InvoiceService {
                 .sorted()
                 .toList();
 
-        double avgLineValue = validLines.stream()
-                .mapToDouble(l -> l.getQuantity() * l.getUnitPrice())
-                .average()
-                .orElse(0.0);
-
-        String mostExpensive = validLines.stream()
-                .max(Comparator.comparingDouble(l -> l.getQuantity() * l.getUnitPrice()))
-                .map(InvoiceLine::getProduct)
-                .orElse("N/A");
-
         return new InvoiceResponse(
                 inv.getId(),
                 Optional.ofNullable(inv.getCustomerName()).filter(n -> !n.isBlank()).orElse("Anonymous"),
@@ -116,9 +104,7 @@ public class InvoiceService {
                 products,
                 total,
                 tax,
-                grandTotal,
-                avgLineValue,
-                mostExpensive
+                grandTotal
         );
     }
 }

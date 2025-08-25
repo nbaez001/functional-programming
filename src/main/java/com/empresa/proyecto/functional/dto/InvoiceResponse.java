@@ -8,10 +8,8 @@ public record InvoiceResponse(
         String customer,
         LocalDate date,
         List<String> products,
-        Double totalAmount,
+        Double amount,
         Double tax,
-        Double grandTotal,
-        Double averageLineValue,
-        String mostExpensiveProduct
+        Double total
 ) {
 }
